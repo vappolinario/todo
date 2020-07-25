@@ -1,10 +1,23 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import TodoItem from './TodoItem'
+import React, { useState, useCallback } from 'react';
+import TodoList from './TodoList';
 
 const App = () => {
     const [newTodo, setNewTodo] = useState('');
     const [todos, setTodos] = useState([]);
     const onNewTodoChange = useCallback((e) => {setNewTodo(e.target.value)}, []);
+
+    const removeTodo = useCallback((todo) => (event) => {
+        setTodos(todos.filter(otherTodo => otherTodo !== todo));
+    }, [todos]);
+
+    const toggleTodo = useCallback((todo, index) => (event) => {
+        const newTodos = [...todos];
+        newTodos.splice(index, 1, {
+            ...todo,
+            done: !todo.done
+        });
+        setTodos(newTodos);
+    }, [todos]);
 
     const formSubmitted = useCallback((e) => {
         e.preventDefault();
@@ -20,23 +33,6 @@ const App = () => {
         setNewTodo('');
     }, [todos, newTodo]);
 
-    useEffect(() => {
-        console.log('todos', todos);
-    }, [todos]);
-
-    const removeTodo = useCallback((todo) => (event) => {
-        setTodos(todos.filter(otherTodo => otherTodo !== todo));
-    }, [todos]);
-
-    const toggleTodo = useCallback((todo, index) => (event) => {
-        const newTodos = [...todos];
-        newTodos.splice(index, 1, {
-            ...todo,
-            done: !todo.done
-        });
-        setTodos(newTodos);
-    }, [todos]);
-
     return (
     <div>
         <form onSubmit={formSubmitted}>
@@ -49,14 +45,7 @@ const App = () => {
             />
             <button>Add Todo</button>
         </form>
-        <ul>
-            {todos.map((todo, index) => (
-                <li key={todo.id} >
-                    <TodoItem todo={todo} index={index} onChange={() => toggleTodo(todo, index)} />
-                    <button onClick={removeTodo(todo)}>Remove</button>
-                </li>
-            ))}
-        </ul>
+        <TodoList todos={todos} onRemoveClick={removeTodo} onCheckToggle={toggleTodo} />
     </div>
     );
 };
