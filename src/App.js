@@ -1,16 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import TodoList from './TodoList';
+import FormAddTodo from './FormAddTodo';
 
 const App = () => {
     const [newTodo, setNewTodo] = useState('');
     const [todos, setTodos] = useState([]);
     const onNewTodoChange = useCallback((e) => {setNewTodo(e.target.value)}, []);
 
-    const removeTodo = useCallback((todo) => (event) => {
+    const removeTodo = useCallback((todo) => (_) => {
         setTodos(todos.filter(otherTodo => otherTodo !== todo));
     }, [todos]);
 
-    const toggleTodo = useCallback((todo, index) => (event) => {
+    const toggleTodo = useCallback((todo, index) => (_) => {
         const newTodos = [...todos];
         newTodos.splice(index, 1, {
             ...todo,
@@ -34,19 +35,10 @@ const App = () => {
     }, [todos, newTodo]);
 
     return (
-    <div>
-        <form onSubmit={formSubmitted}>
-            <label htmlFor="New todo">Enter task:</label>
-            <input
-                id="newTodo"
-                name="newTodo"
-                value={newTodo}
-                onChange={onNewTodoChange}
-            />
-            <button>Add Todo</button>
-        </form>
-        <TodoList todos={todos} onRemoveClick={removeTodo} onCheckToggle={toggleTodo} />
-    </div>
+        <div>
+            <FormAddTodo newTodo={newTodo} onFormSubmitted={formSubmitted} onNewTodoChange={onNewTodoChange} />
+            <TodoList todos={todos} onRemoveClick={removeTodo} onCheckToggle={toggleTodo} />
+        </div>
     );
 };
 
