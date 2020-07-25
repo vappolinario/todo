@@ -3,14 +3,14 @@ import React from 'react';
 const FormAddTodo = (props) => {
     return (
         <form onSubmit={props.onFormSubmitted}>
-            <label htmlFor="New todo">Enter task:</label>
+            <h3 htmlFor="newTodo">Add task:</h3>
             <input
                 id="newTodo"
                 name="newTodo"
                 value={props.newTodo}
                 onChange={props.onNewTodoChange}
             />
-            <button>Add Todo</button>
+            <button>Add</button>
         </form>
     );
 };

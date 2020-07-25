@@ -35,7 +35,8 @@ const App = () => {
     }, [todos, newTodo]);
 
     return (
-        <div>
+        <div className="container">
+            <h2>Todo List</h2>
             <FormAddTodo newTodo={newTodo} onFormSubmitted={formSubmitted} onNewTodoChange={onNewTodoChange} />
             <TodoList todos={todos} onRemoveClick={removeTodo} onCheckToggle={toggleTodo} />
         </div>

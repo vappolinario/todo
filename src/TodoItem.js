@@ -2,15 +2,14 @@ import React from 'react';
 
 const TodoItem = (props) => {
     return (
-        <div>
+        <label className={props.todo.done ? 'completed-tasks' : ''}>
             <input
                 checked={props.todo.done}
                 type="checkbox"
                 onChange={props.onChange(props.todo, props.index)}
             />
-            <span className={props.todo.done ? 'done' : ''}>{props.todo.content}</span>
-
-        </div>
+            {props.todo.content}
+        </label>
     );
 };
 
