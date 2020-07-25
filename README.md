@@ -29,8 +29,10 @@
   * [x] Pass the todo down with props
   * [x] Pass the mark done function down with props
   * [x] Pass the remove todo function down with props
-* [ ] Create a Form Component
-  * [ ] Pass the add todo function down with props
+* [x] Create a Form Component
+  * [x] Pass the add todo function down with props
+* [x] Create a CSS for the app
+* [ ] Database persistence
 
 ## References
 
