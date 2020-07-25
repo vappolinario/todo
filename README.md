@@ -25,10 +25,10 @@
   * [ ] Pass the todo array down with props
   * [ ] Pass the mark done function down with props
   * [ ] Pass the remove todo function down with props
-* [ ] Create a TodoItem Component
-  * [ ] Pass the todo down with props
-  * [ ] Pass the mark done function down with props
-  * [ ] Pass the remove todo function down with props
+* [x] Create a TodoItem Component
+  * [x] Pass the todo down with props
+  * [x] Pass the mark done function down with props
+  * [x] Pass the remove todo function down with props
 * [ ] Create a Form Component
   * [ ] Pass the add todo function down with props
 

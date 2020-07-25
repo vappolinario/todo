@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import TodoItem from './TodoItem'
 
 const App = () => {
     const [newTodo, setNewTodo] = useState('');
@@ -23,17 +24,17 @@ const App = () => {
         console.log('todos', todos);
     }, [todos]);
 
-    const addTodo = useCallback((todo, index) => (event) => {
+    const removeTodo = useCallback((todo) => (event) => {
+        setTodos(todos.filter(otherTodo => otherTodo !== todo));
+    }, [todos]);
+
+    const toggleTodo = useCallback((todo, index) => (event) => {
         const newTodos = [...todos];
         newTodos.splice(index, 1, {
             ...todo,
             done: !todo.done
         });
         setTodos(newTodos);
-    }, [todos]);
-
-    const removeTodo = useCallback((todo) => (event) => {
-        setTodos(todos.filter(otherTodo => otherTodo !== todo));
     }, [todos]);
 
     return (
@@ -51,12 +52,7 @@ const App = () => {
         <ul>
             {todos.map((todo, index) => (
                 <li key={todo.id} >
-                    <input
-                        checked={todo.done}
-                        type="checkbox"
-                        onChange={addTodo(todo, index)}
-                    />
-                    <span className={todo.done ? 'done' : ''}>{todo.content}</span>
+                    <TodoItem todo={todo} index={index} onChange={() => toggleTodo(todo, index)} />
                     <button onClick={removeTodo(todo)}>Remove</button>
                 </li>
             ))}
