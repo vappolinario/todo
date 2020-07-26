@@ -28,7 +28,6 @@ namespace TodoApi.Controllers
             var item = _todos.Find(t => t.Id.Equals(id));
             if ( item == null )
                 return NotFound();
-
             return Ok(item);
         }
 
@@ -40,6 +39,16 @@ namespace TodoApi.Controllers
             return CreatedAtRoute(nameof(GetTodoById),
                     new { Id = newTask.Id },
                     newTask);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteTask(int id)
+        {
+            var forDeletion = _todos.Find(t => t.Id.Equals(id));
+            if ( forDeletion == null )
+                return NotFound();
+            _todos.Remove(forDeletion);
+            return Ok();
         }
     }
 }

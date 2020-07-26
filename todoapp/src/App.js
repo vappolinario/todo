@@ -1,25 +1,41 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import TodoList from './components/TodoList';
 import FormAddTodo from './components/FormAddTodo';
+import ErrorLabel from './components/ErrorLabel';
 
 const App = () => {
     const [newTodo, setNewTodo] = useState('');
     const [todos, setTodos] = useState([]);
+    const [error, setError] = useState('');
 
     const onNewTodoChange = useCallback((e) => {setNewTodo(e.target.value)}, []);
 
+    const errorHanlder = (err) => {
+        if ( err.text === "function" ) {
+            err.text().then( errorMessage => setError(errorMessage));
+        }
+        else {
+            setError('' + err);
+        }
+    };
+
     const removeTodo = useCallback((todo) => (_) => {
-        setTodos(todos.filter(otherTodo => otherTodo !== todo));
+        fetch(`http://localhost:5000/api/todo/${todo.id}`, {
+            method: "DELETE",
+        })
+            .then(_  => {
+                setTodos(todos.filter(otherTodo => otherTodo !== todo));
+            })
+            .catch(err => { errorHanlder(err) });
     }, [todos]);
 
     useEffect(() => {
         fetch("http://localhost:5000/api/todo")
             .then(res => res.json())
             .then(response => {
-                console.log('response', response);
                 setTodos(response);
             })
-            .catch(err => console.log('error', err))
+            .catch(err => { errorHanlder(err) });
     }, []);
 
     const toggleTodo = useCallback((todo, index) => (_) => {
@@ -43,7 +59,7 @@ const App = () => {
             .then(response => {
                 setTodos([ response, ...todos, ])
             })
-            .catch(err => console.log('error', err));
+            .catch(err => { errorHanlder(err) });
         setNewTodo('');
     }, [todos, newTodo]);
 
@@ -52,6 +68,7 @@ const App = () => {
             <h2>Todo List</h2>
             <FormAddTodo newTodo={newTodo} onFormSubmitted={formSubmitted} onNewTodoChange={onNewTodoChange} />
             <TodoList todos={todos} onRemoveClick={removeTodo} onCheckToggle={toggleTodo} />
+            <ErrorLabel error={error}/>
         </div>
     );
 };

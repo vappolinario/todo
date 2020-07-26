@@ -3,7 +3,7 @@ import React from 'react';
 const FormAddTodo = (props) => {
     return (
         <form onSubmit={props.onFormSubmitted}>
-            <h3 htmlFor="newTodo">Add task:</h3>
+            <h3 htmlFor="newTodo">Add task</h3>
             <input
                 id="newTodo"
                 name="newTodo"
