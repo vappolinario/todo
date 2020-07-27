@@ -44,7 +44,15 @@ const App = () => {
             ...todo,
             done: !todo.done
         });
-        setTodos(newTodos);
+        fetch(`http://localhost:5000/api/todo/${todo.id}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: todo.id,  done: !todo.done})
+        })
+        .then(_  => {
+            setTodos(newTodos);
+        })
+        .catch(err => { errorHanlder(err) });
     }, [todos]);
 
     const formSubmitted = useCallback((e) => {
