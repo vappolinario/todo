@@ -1,8 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace TodoApi.Dtos
 {
-    public class TodoCreateDto
+    public class TaskCreateCommand
     {
         public string Content { get; set; }
         public bool Done { get; set; }

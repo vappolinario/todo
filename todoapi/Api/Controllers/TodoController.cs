@@ -34,7 +34,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTask([FromBody] TodoCreateDto todo)
+        public ActionResult CreateTask([FromBody] TaskCreateCommand todo)
         {
             if ( todo == null )
                 throw new Exception("Todo null");
@@ -57,7 +57,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateTask(string id,[FromBody] TodoUpdateDto todo)
+        public ActionResult UpdateTask(string id,[FromBody] TaskUpdateCommand todo)
         {
             var forUpdate = _repo.GetTaskById(id);
             if ( forUpdate == null )
