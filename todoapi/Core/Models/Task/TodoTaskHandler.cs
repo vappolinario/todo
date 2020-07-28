@@ -6,7 +6,8 @@ using TodoApi.Data;
 namespace TodoApi.Core.Models
 {
     public class TaskHandler : IRequestHandler<TaskCreateCommand, TodoTask>,
-        IRequestHandler<TaskUpdateCommand, TodoTask>
+        IRequestHandler<TaskUpdateCommand, TodoTask>,
+        IRequestHandler<TaskDeleteCommand>
     {
         private readonly IMediator _mediator;
         private readonly ITodoTaskRepository _repository;
@@ -38,5 +39,15 @@ namespace TodoApi.Core.Models
             _repository.UpdateTask(task);
             return await Task.Run( () => { return task; });
         }
+
+        public async Task<Unit> Handle(TaskDeleteCommand request, CancellationToken cancellationToken)
+        {
+            var forDeletion = _repository.GetTaskById(request.Id);
+            if ( forDeletion == null )
+                throw new System.ArgumentNullException("Task");
+            await Task.Run (() => {_repository.DeleteTask(forDeletion); });
+            return Unit.Value;
+        }
     }
 }
+

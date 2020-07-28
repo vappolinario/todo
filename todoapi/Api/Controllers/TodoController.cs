@@ -46,12 +46,9 @@ namespace TodoApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteItem(string id)
+        public async Task<ActionResult> DeleteItem(string id)
         {
-            var forDeletion = _repo.GetTaskById(id);
-            if ( forDeletion == null )
-                return NotFound();
-            _repo.DeleteTask(forDeletion);
+            var response = await _mediator.Send(new TaskDeleteCommand { Id = id });
             return Ok();
         }
 
