@@ -16,8 +16,6 @@ namespace TodoApi.Controllers
         public TodoController(ITaskRepository repo)
         {
              _repo = repo;
-             if (_repo == null)
-                 throw new Exception("Falta repo");
         }
 
         [HttpGet]
