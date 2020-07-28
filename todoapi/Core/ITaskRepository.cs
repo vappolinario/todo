@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using TodoApi.Models;
+using TodoApi.Core.Models;
 
 namespace TodoApi.Data
 {
-    public interface ITaskRepository
+    public interface ITodoTaskRepository
     {
-        IEnumerable<Task> GetAllTodos();
-        Task GetTaskById(string id);
-        void DeleteTask(Task item);
-        void CreateTask(Task item);
-        void UpdateTask(Task item);
+        IEnumerable<TodoTask> GetAllTodos();
+        TodoTask GetTaskById(string id);
+        void DeleteTask(TodoTask item);
+        void CreateTask(TodoTask item);
+        void UpdateTask(TodoTask item);
     }
 }

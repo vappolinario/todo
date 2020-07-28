@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Data;
-using TodoApi.Dtos;
-using TodoApi.Models;
+using TodoApi.Core.Models;
+using MediatR;
+using System.Threading.Tasks;
 
 namespace TodoApi.Controllers
 {
@@ -12,20 +13,22 @@ namespace TodoApi.Controllers
     [Route("api/[controller]")]
     public class TodoController : ControllerBase
     {
-        private readonly ITaskRepository _repo;
-        public TodoController(ITaskRepository repo)
+        private readonly ITodoTaskRepository _repo;
+        private readonly IMediator _mediator;
+        public TodoController(IMediator mediator, ITodoTaskRepository repo)
         {
              _repo = repo;
+             _mediator = mediator;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Task>> GetAllTodos()
+        public ActionResult<IEnumerable<TodoTask>> GetAllTodos()
         {
             return Ok(_repo.GetAllTodos().OrderByDescending(t => t.Id));
         }
 
         [HttpGet("{id}", Name="GetTodoById")]
-        public ActionResult<IEnumerable<Task>> GetTodoById(string id)
+        public ActionResult<IEnumerable<TodoTask>> GetTodoById(string id)
         {
             var item = _repo.GetTaskById(id);
             if ( item == null )
@@ -34,16 +37,12 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTask([FromBody] TaskCreateCommand todo)
+        public async Task<ActionResult> CreateTask([FromBody] TaskCreateCommand createNewTask)
         {
-            if ( todo == null )
-                throw new Exception("Todo null");
-
-            var newTask = new Task { Id = Nanoid.Nanoid.Generate(size: 10), Content = todo.Content, Done = false };
-            _repo.CreateTask(newTask);
+            var response = await _mediator.Send(createNewTask);
             return CreatedAtRoute(nameof(GetTodoById),
-                    new { Id = newTask.Id },
-                    newTask);
+                    new { Id = response.Id },
+                    response);
         }
 
         [HttpDelete("{id}")]
@@ -57,14 +56,10 @@ namespace TodoApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateTask(string id,[FromBody] TaskUpdateCommand todo)
+        public async Task<ActionResult> UpdateTask(string id, [FromBody] TaskUpdateCommand todoTask)
         {
-            var forUpdate = _repo.GetTaskById(id);
-            if ( forUpdate == null )
-                return NotFound();
-
-            forUpdate.Done = todo.Done;
-            _repo.UpdateTask(forUpdate);
+            todoTask.Id = id;
+            var response = await _mediator.Send(todoTask);
             return NoContent();
         }
     }
