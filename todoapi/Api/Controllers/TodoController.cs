@@ -22,9 +22,10 @@ namespace TodoApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TodoTask>> GetAllTodos()
+        public async Task<ActionResult<GetAllTasksResponse>> GetAllTodos()
         {
-            return Ok(_repo.GetAllTodos().OrderByDescending(t => t.Id));
+            var response = await _mediator.Send(new GetAllTasksQuery());
+            return Ok(response);
         }
 
         [HttpGet("{id}", Name="GetTodoById")]
