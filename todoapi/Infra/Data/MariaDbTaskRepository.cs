@@ -44,7 +44,6 @@ namespace TodoApi.Data
 
         public void UpdateTask(TodoTask item)
         {
-            Console.WriteLine($"Atualizando item {item.Id} para {item.Done.ToString()}");
             _context.SaveChanges();
         }
     }
