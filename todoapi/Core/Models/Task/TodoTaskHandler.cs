@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -6,8 +7,10 @@ using TodoApi.Data;
 namespace TodoApi.Core.Models
 {
     public class TaskHandler : IRequestHandler<TaskCreateCommand, TodoTask>,
-        IRequestHandler<TaskUpdateCommand, TodoTask>,
-        IRequestHandler<TaskDeleteCommand>
+    IRequestHandler<TaskUpdateCommand, TodoTask>,
+    IRequestHandler<TaskDeleteCommand>,
+    IRequestHandler<GetAllTasksQuery, GetAllTasksResponse>,
+    IRequestHandler<GetTaskByIdQuery, GetTaskByIdResponse>
     {
         private readonly IMediator _mediator;
         private readonly ITodoTaskRepository _repository;
@@ -47,6 +50,18 @@ namespace TodoApi.Core.Models
                 throw new System.ArgumentNullException("Task");
             await Task.Run (() => {_repository.DeleteTask(forDeletion); });
             return Unit.Value;
+        }
+
+        public async Task<GetAllTasksResponse> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
+        {
+            var tasks = _repository.GetAllTodos().OrderByDescending(t => t.Id);
+            return await Task.Run (() => { return new GetAllTasksResponse(tasks); });
+        }
+
+        public async Task<GetTaskByIdResponse> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
+        {
+            var task = _repository.GetTaskById(request.Id);
+            return await Task.Run(() => { return new GetTaskByIdResponse(task); });
         }
     }
 }

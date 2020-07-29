@@ -13,27 +13,27 @@ namespace TodoApi.Controllers
     [Route("api/[controller]")]
     public class TodoController : ControllerBase
     {
-        private readonly ITodoTaskRepository _repo;
         private readonly IMediator _mediator;
         public TodoController(IMediator mediator, ITodoTaskRepository repo)
         {
-             _repo = repo;
              _mediator = mediator;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TodoTask>> GetAllTodos()
+        public async Task<ActionResult<GetAllTasksResponse>> GetAllTodos()
         {
-            return Ok(_repo.GetAllTodos().OrderByDescending(t => t.Id));
+            var response = await _mediator.Send(new GetAllTasksQuery());
+            return Ok(response);
         }
 
         [HttpGet("{id}", Name="GetTodoById")]
-        public ActionResult<IEnumerable<TodoTask>> GetTodoById(string id)
+        public async Task<ActionResult<GetTaskByIdResponse>> GetTodoById(string id)
         {
-            var item = _repo.GetTaskById(id);
-            if ( item == null )
+            var response = await _mediator.Send(new GetTaskByIdQuery(id));
+            if ( response == null )
                 return NotFound();
-            return Ok(item);
+
+            return Ok(response);
         }
 
         [HttpPost]
