@@ -1,8 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+using MediatR;
 
-namespace TodoApi.Dtos
+namespace TodoApi.Core.Models
 {
-    public class TodoCreateDto
+    public class TaskCreateCommand : IRequest<TodoTask>
     {
         public string Content { get; set; }
         public bool Done { get; set; }

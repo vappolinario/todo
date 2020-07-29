@@ -33,7 +33,7 @@ const App = () => {
         fetch("http://localhost:5000/api/todo")
             .then(res => res.json())
             .then(response => {
-                setTodos(response);
+                setTodos(response.tasks);
             })
             .catch(err => { errorHanlder(err) });
     }, []);

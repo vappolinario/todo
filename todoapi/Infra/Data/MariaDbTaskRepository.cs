@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TodoApi.Models;
+using TodoApi.Core.Models;
 
 namespace TodoApi.Data
 {
-    public class MariaDbTaskRepository : ITaskRepository
+    public class MariaDbTaskRepository : ITodoTaskRepository
     {
         private readonly TaskContext _context;
 
@@ -14,7 +14,7 @@ namespace TodoApi.Data
             _context = context;
         }
 
-        public void CreateTask(Task item)
+        public void CreateTask(TodoTask item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
@@ -23,7 +23,7 @@ namespace TodoApi.Data
             _context.SaveChanges();
         }
 
-        public void DeleteTask(Task item)
+        public void DeleteTask(TodoTask item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
@@ -32,19 +32,18 @@ namespace TodoApi.Data
             _context.SaveChanges();
         }
 
-        public IEnumerable<Task> GetAllTodos()
+        public IEnumerable<TodoTask> GetAllTodos()
         {
             return _context.Tasks.ToList();
         }
 
-        public Task GetTaskById(string id)
+        public TodoTask GetTaskById(string id)
         {
             return _context.Tasks.FirstOrDefault(t => t.Id.Equals(id));
         }
 
-        public void UpdateTask(Task item)
+        public void UpdateTask(TodoTask item)
         {
-            Console.WriteLine($"Atualizando item {item.Id} para {item.Done.ToString()}");
             _context.SaveChanges();
         }
     }

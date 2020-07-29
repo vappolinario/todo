@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TodoApi.Models
+namespace TodoApi.Core.Models
 {
-    public class Task
+    public class TodoTask
     {
         [Key]
         public string Id { get; set; }
