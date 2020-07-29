@@ -32,7 +32,7 @@
 * [x] Create a Form Component
   * [x] Pass the add todo function down with props
 * [x] Create a CSS for the app
-* [ ] Database persistence
+* [x] Database persistence
 
 ## References
 
