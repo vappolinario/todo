@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TodoApi.Data;
 using TodoApi.Core.Models;
 using MediatR;
 using System.Threading.Tasks;
@@ -14,7 +10,8 @@ namespace TodoApi.Controllers
     public class TodoController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public TodoController(IMediator mediator, ITodoTaskRepository repo)
+
+        public TodoController(IMediator mediator)
         {
              _mediator = mediator;
         }
@@ -30,7 +27,7 @@ namespace TodoApi.Controllers
         public async Task<ActionResult<GetTaskByIdResponse>> GetTodoById(string id)
         {
             var response = await _mediator.Send(new GetTaskByIdQuery(id));
-            if ( response == null )
+            if ( response.Task == null )
                 return NotFound();
 
             return Ok(response);
