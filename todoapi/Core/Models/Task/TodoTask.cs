@@ -11,5 +11,7 @@ namespace TodoApi.Core.Models
         public string Content { get; set; }
         [Required]
         public bool Done { get; set; }
+
+        public override string ToString() => $"Task {Id} - {Content} : {Done}";
     }
 }

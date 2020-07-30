@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using TodoApi.Data;
 
 namespace TodoApi.Core.Models
@@ -14,11 +15,13 @@ namespace TodoApi.Core.Models
     {
         private readonly IMediator _mediator;
         private readonly ITodoTaskRepository _repository;
+        private readonly ILogger<TaskHandler> _logger;
 
-        public TaskHandler(IMediator mediator, ITodoTaskRepository repository)
+        public TaskHandler(IMediator mediator, ITodoTaskRepository repository, ILogger<TaskHandler> logger)
         {
             _mediator= mediator;
             _repository = repository;
+            _logger = logger;
         }
 
         public async Task<TodoTask> Handle(TaskCreateCommand request, CancellationToken cancellationToken)
@@ -29,6 +32,7 @@ namespace TodoApi.Core.Models
                    Done = request.Done };
 
             _repository.CreateTask(task);
+            _logger.LogInformation($"TodoTask created {task.ToString()}");
             return await Task.Run( () => { return task; });
         }
 
@@ -40,15 +44,17 @@ namespace TodoApi.Core.Models
 
             task.Done = request.Done;
             _repository.UpdateTask(task);
+            _logger.LogInformation($"TodoTask updated {task.ToString()}");
             return await Task.Run( () => { return task; });
         }
 
         public async Task<Unit> Handle(TaskDeleteCommand request, CancellationToken cancellationToken)
         {
-            var forDeletion = _repository.GetTaskById(request.Id);
-            if ( forDeletion == null )
+            var task = _repository.GetTaskById(request.Id);
+            if ( task == null )
                 throw new System.ArgumentNullException("Task");
-            await Task.Run (() => {_repository.DeleteTask(forDeletion); });
+            await Task.Run (() => {_repository.DeleteTask(task); });
+            _logger.LogInformation($"TodoTask deleted {task.ToString()}");
             return Unit.Value;
         }
 
