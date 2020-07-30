@@ -10,7 +10,8 @@
 * [x] Reactor api to a better architeture
   * [x] Using Clean Architecture
   * [x] Using MediatR
-* [ ] Add Logging
+* [x] Add Logging
+  * [x] Loggin to console using serilog
 * [ ] Add tests
 * [ ] Set up a container environment
 * [ ] Deploy to a cloud platform
