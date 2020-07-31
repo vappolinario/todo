@@ -18,6 +18,10 @@ You will need a MariaDb instance
 
 `docker run -d -p 3306:3306 --name taskdb -e MARIADB_ROOT_PASSWORD=admin bitnami/mariadb`
 
+You will need a KeyCloak instance
+
+`docker run --name keycloak -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_IMPORT=/tmp/realm.json -v /FULL_PATH_TO_REPO/todoapp/infra/realm.json:/tmp/realm.json jboss/keycloak`
+
 Then apply all migrations
 
 `dotnet ef database update`
