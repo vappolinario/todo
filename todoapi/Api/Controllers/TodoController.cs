@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using TodoApi.Core.Models;
 using MediatR;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TodoApi.Controllers
 {
+    [Authorize]
     [Controller]
     [Route("api/[controller]")]
     public class TodoController : ControllerBase
