@@ -33,6 +33,9 @@
   * [x] Pass the add todo function down with props
 * [x] Create a CSS for the app
 * [x] Database persistence
+* [x] Adds authentication
+  * [x] Adds keycloack-js
+  * [ ] Wrap with KeycloakProvider from react-keycloak/web
 
 ## References
 
@@ -40,3 +43,4 @@
 * https://reactjs.org/docs/hooks-reference.html
 * https://reactjs.org/docs/react-api.html
 * https://reactjs.org/tutorial/tutorial.html#developer-tools
+* https://medium.com/@cagline/authenticate-and-authorize-react-routes-component-with-keycloak-666e85662636
