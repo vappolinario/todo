@@ -14,9 +14,9 @@
   * [x] Loggin to console using serilog
 * [x] Add authentication and authorization
     * [x] Add KeyCloak integration
-    * [ ] Uses Social Login
+    * [x] Uses Social Login
 * [ ] Add tests
-* [ ] Set up a container environment
+* [x] Set up a container environment
 * [ ] Deploy to a cloud platform
 
 ## References

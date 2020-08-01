@@ -4,15 +4,13 @@
 
 Idea based on the [Intro tho React + Hooks](https://github.com/CodingGarden/intro-react-hooks-todo) from [CodingGarden](https://github.com/CodingGarden)
 
-### Running the app
+## Running the app
 
-Just `npm start` on the `todoapp` directory
+ 1. `docker compose up`
+ 2. run the migration for the api database `dotnet ef database update` from the api directory
+ 3. Add an user in the keycloak instance
 
-## .NET Core Api
-
-Created to provide access to database to the React app
-
-### Running the api
+## Runnig each container separately
 
 You will need a MariaDb instance
 
@@ -22,10 +20,13 @@ You will need a KeyCloak instance
 
 `docker run --name keycloak -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_IMPORT=/tmp/realm.json -v /FULL_PATH_TO_REPO/todoapp/infra/realm.json:/tmp/realm.json jboss/keycloak`
 
-Then apply all migrations
+### Api
 
-`dotnet ef database update`
+Within the api directory
+ 1. Apply all migrations `dotnet ef database update`
+ 2. Then run the aplication with `dotnet run`
 
-Then run the aplication with
+### React app
 
-`dotnet run`
+Within the react app directory
+  1. Then run the react app `npm start`
