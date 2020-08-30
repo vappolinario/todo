@@ -33,3 +33,18 @@ export function toggleTodoState(todo, token, updateList) {
     .then(() => updateList())
     .catch((err) => console.log('error toggle api', err));
 }
+
+export function addTodoItem(item, token, callback) {
+  const toggleTodo = {
+    method: 'post',
+    url: `${API_URL}`,
+    headers: {
+      Authorization: 'Bearer ' + token.access_token,
+    },
+    data: {content: item, done: false},
+  };
+
+  axios(toggleTodo)
+    .then((response) => callback(response.data))
+    .catch((err) => console.log('error toggle api', err));
+}
