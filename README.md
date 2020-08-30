@@ -30,3 +30,12 @@ Within the api directory
 
 Within the react app directory
   1. Then run the react app `npm start`
+
+### React Native App
+
+Whitin the react-native directory
+  1. Run `npm start`
+  2. Run `npx react-native run-android`
+
+ > Icons
+ > task by wira wianda from the Noun Project

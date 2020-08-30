@@ -9,9 +9,15 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
+import NewTodoForm from './src/components/NewTodoForm.js';
 import TodoList from './src/components/TodoList.js';
 
-import {getTodoList, toggleTodoState} from './src/clients/todoclient.js';
+import {
+  getTodoList,
+  toggleTodoState,
+  addTodoItem,
+} from './src/clients/todoclient.js';
+
 import {login} from './src/clients/authclient.js';
 
 const App: () => React$Node = () => {
@@ -28,6 +34,14 @@ const App: () => React$Node = () => {
   const handleGetListClick = useCallback(() => {
     getTodoList(token.access_token, setTodos);
   }, [token]);
+
+  const handleAddTodo = useCallback(
+    (item) => () => {
+      addTodoItem(item, token, (response) => {
+        setTodos([response, ...todos]);
+      });
+    },
+    [token, todos]);
 
   const handleToggleDone = useCallback(
     (todo, index) => (_) => {
@@ -53,6 +67,7 @@ const App: () => React$Node = () => {
         <View style={styles.body}>
           <Button onPress={handleGetTokenClick} title="Get Token" />
           <Text> {token.access_token} </Text>
+          <NewTodoForm onPress={handleAddTodo} />
           <Button onPress={handleGetListClick} title="Get List" />
           <TodoList todos={todos} onCheckToggle={handleToggleDone} />
         </View>
