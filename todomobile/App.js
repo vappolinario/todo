@@ -2,7 +2,6 @@ import React, {useState, useCallback} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   StatusBar,
@@ -46,21 +45,17 @@ const App: () => React$Node = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <Button onPress={handleGetTokenClick} title="Get Token" />
-            <Text> {token.access_token} </Text>
-            <Button onPress={handleGetListClick} title="Get List" />
-            <TodoList todos={todos} onCheckToggle={handleToggleDone} />
+        {global.HermesInternal == null ? null : (
+          <View style={styles.engine}>
+            <Text style={styles.footer}>Engine: Hermes</Text>
           </View>
-        </ScrollView>
+        )}
+        <View style={styles.body}>
+          <Button onPress={handleGetTokenClick} title="Get Token" />
+          <Text> {token.access_token} </Text>
+          <Button onPress={handleGetListClick} title="Get List" />
+          <TodoList todos={todos} onCheckToggle={handleToggleDone} />
+        </View>
       </SafeAreaView>
     </>
   );

@@ -1,26 +1,21 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {FlatList} from 'react-native';
 import TodoItem from './TodoItem.js';
 
 const TodoList = ({todos, onCheckToggle}) => {
+  const toggle = (a, b) => onCheckToggle(a, b);
+
+  const renderItem = ({item, index}) => {
+    return <TodoItem todo={item} index={index} onChange={toggle} />;
+  };
+
   return (
-    <View style={styles.view}>
-      {todos.map((todo, index) => (
-        <TodoItem
-          key={'app_' + todo.id}
-          todo={todo}
-          index={index}
-          onChange={onCheckToggle}
-        />
-      ))}
-    </View>
+    <FlatList
+      data={todos}
+      renderItem={renderItem}
+      keyExtractor={(item) => 'lst_' + item.id}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  view: {
-    flexDirection: 'column',
-  },
-});
 
 export default TodoList;
