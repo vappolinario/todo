@@ -9,80 +9,35 @@ import {
   Button,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import axios from 'axios';
-import qs from 'qs';
 
 import TodoList from './src/components/TodoList.js';
+
+import {getTodoList, toggleTodoState} from './src/clients/todoclient.js';
+import {login} from './src/clients/authclient.js';
 
 const App: () => React$Node = () => {
   const [token, setToken] = useState('');
   const [todos, setTodos] = useState([]);
 
-  const AUTH_URL =
-    'http://192.168.100.5:8080/auth/realms/todoapp/protocol/openid-connect/token/';
-  const API_URL = 'http://192.168.100.5:5000/api/todo/';
-
-  const getToken = useCallback(() => {
-    var data = qs.stringify({
-      grant_type: 'password',
-      client_id: 'todo-app',
-      username: 'vitor',
-      password: 'teste123',
+  const handleGetTokenClick = useCallback(() => {
+    login('vitor', 'teste123', (data) => {
+      setToken(data);
+      setTodos([]);
     });
-
-    var postToken = {
-      method: 'post',
-      url: AUTH_URL,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      data: data,
-    };
-
-    axios(postToken)
-      .then(function (response) {
-        setToken(response.data);
-        setTodos([]);
-      })
-      .catch(function (error) {
-        console.log('token error', error);
-      });
   }, [setToken]);
 
-  const getTodoList = useCallback(() => {
-    const getTodos = {
-      method: 'get',
-      url: API_URL,
-      headers: {
-        Authorization: 'Bearer ' + token.access_token,
-      },
-    };
-
-    axios(getTodos)
-      .then((res) => setTodos(res.data.tasks))
-      .catch((err) => console.log('error todo api', err));
+  const handleGetListClick = useCallback(() => {
+    getTodoList(token.access_token, setTodos);
   }, [token]);
 
-  const toggleDone = useCallback(
+  const handleToggleDone = useCallback(
     (todo, index) => (_) => {
       const newTodos = [...todos];
       newTodos.splice(index, 1, {
         ...todo,
         done: !todo.done,
       });
-
-      const toggleTodo = {
-        method: 'put',
-        url: `${API_URL}${todo.id}`,
-        headers: {
-          Authorization: 'Bearer ' + token.access_token,
-        },
-        data: {id: todo.id, done: !todo.done},
-      };
-
-      axios(toggleTodo)
-        .then(() => setTodos(newTodos))
-        .catch((err) => console.log('error toggle api', err));
+      toggleTodoState(todo, token, setTodos(newTodos));
     },
     [todos, token],
   );
@@ -100,10 +55,10 @@ const App: () => React$Node = () => {
             </View>
           )}
           <View style={styles.body}>
-            <Button onPress={getToken} title="Get Token" />
+            <Button onPress={handleGetTokenClick} title="Get Token" />
             <Text> {token.access_token} </Text>
-            <Button onPress={getTodoList} title="Get List" />
-            <TodoList todos={todos} onCheckToggle={toggleDone} />
+            <Button onPress={handleGetListClick} title="Get List" />
+            <TodoList todos={todos} onCheckToggle={handleToggleDone} />
           </View>
         </ScrollView>
       </SafeAreaView>
