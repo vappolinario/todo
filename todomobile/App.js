@@ -79,7 +79,6 @@ const App: () => React$Node = () => {
         )}
         <View style={styles.body}>
           <Button onPress={handleGetTokenClick} title="Get Token" />
-          <Text> {token.access_token} </Text>
           <NewTodoForm onPress={handleAddTodo} />
           <Button onPress={handleGetListClick} title="Get List" />
           <TodoList
