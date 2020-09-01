@@ -48,3 +48,17 @@ export function addTodoItem(item, token, callback) {
     .then((response) => callback(response.data))
     .catch((err) => console.log('error toggle api', err));
 }
+
+export function removeItem(itemId, token, callback) {
+  const toggleTodo = {
+    method: 'delete',
+    url: `${API_URL}${itemId}`,
+    headers: {
+      Authorization: 'Bearer ' + token.access_token,
+    },
+  };
+
+  axios(toggleTodo)
+    .then((response) => callback(response.data))
+    .catch((err) => console.log('error toggle api', err));
+}

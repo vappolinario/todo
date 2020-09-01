@@ -16,8 +16,8 @@ import {
   getTodoList,
   toggleTodoState,
   addTodoItem,
+  removeItem,
 } from './src/clients/todoclient.js';
-
 import {login} from './src/clients/authclient.js';
 
 const App: () => React$Node = () => {
@@ -28,8 +28,9 @@ const App: () => React$Node = () => {
     login('vitor', 'teste123', (data) => {
       setToken(data);
       setTodos([]);
+      handleGetListClick();
     });
-  }, [setToken]);
+  }, [setToken, handleGetListClick]);
 
   const handleGetListClick = useCallback(() => {
     getTodoList(token.access_token, setTodos);
@@ -40,8 +41,10 @@ const App: () => React$Node = () => {
       addTodoItem(item, token, (response) => {
         setTodos([response, ...todos]);
       });
+      handleGetListClick();
     },
-    [token, todos]);
+    [token, todos, handleGetListClick],
+  );
 
   const handleToggleDone = useCallback(
     (todo, index) => (_) => {
@@ -53,6 +56,16 @@ const App: () => React$Node = () => {
       toggleTodoState(todo, token, setTodos(newTodos));
     },
     [todos, token],
+  );
+
+  const handleRemoveClick = useCallback(
+    (id) => {
+      console.log('remove id', id);
+      removeItem(id, token, () => {
+        handleGetListClick();
+      });
+    },
+    [token, handleGetListClick],
   );
 
   return (
@@ -69,7 +82,11 @@ const App: () => React$Node = () => {
           <Text> {token.access_token} </Text>
           <NewTodoForm onPress={handleAddTodo} />
           <Button onPress={handleGetListClick} title="Get List" />
-          <TodoList todos={todos} onCheckToggle={handleToggleDone} />
+          <TodoList
+            todos={todos}
+            onCheckToggle={handleToggleDone}
+            onRemoveClick={handleRemoveClick}
+          />
         </View>
       </SafeAreaView>
     </>
