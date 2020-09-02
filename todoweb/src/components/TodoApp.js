@@ -8,7 +8,7 @@ import {
     toggleTodoState,
     removeTodoItem} from '../clients/todoclient.js';
 
-const TodoApp = ({keycloak}) => {
+const TodoApp = ({auth}) => {
     const [newTodo, setNewTodo] = useState('');
     const [todos, setTodos] = useState([]);
     const [error, setError] = useState('');
@@ -16,12 +16,16 @@ const TodoApp = ({keycloak}) => {
     const onNewTodoChange = useCallback((e) => {setNewTodo(e.target.value)}, []);
 
     useEffect(() => {
-        getTodoList(keycloak.token, (items) => setTodos(items));
-    }, [keycloak]);
+        getTodoList(auth.token, (items) => setTodos(items));
+    }, [auth]);
 
     const removeTodo = useCallback((todo) => (_) => {
-        removeTodoItem(todo.id, keycloak.token, () => setTodos(todos.filter(otherTodo => otherTodo !== todo)));
-    }, [todos, keycloak]);
+        removeTodoItem(
+            todo.id,
+            auth.token,
+            () => setTodos(todos.filter(otherTodo => otherTodo !== todo))
+        );
+    }, [todos, auth]);
 
     const toggleTodo = useCallback((todo, index) => (_) => {
         const newTodos = [...todos];
@@ -29,8 +33,8 @@ const TodoApp = ({keycloak}) => {
             ...todo,
             done: !todo.done
         });
-        toggleTodoState(todo, keycloak.token, () => setTodos(newTodos));
-    }, [todos, keycloak]);
+        toggleTodoState(todo, auth.token, () => setTodos(newTodos));
+    }, [todos, auth]);
 
     const formSubmitted = useCallback((e) => {
         e.preventDefault();
@@ -38,18 +42,26 @@ const TodoApp = ({keycloak}) => {
         const newItem = { id: 0, content: newTodo, done: false };
         addTodoItem(
             newItem,
-            keycloak.token,
+            auth.token,
             (response) => {
                 setTodos([ response, ...todos, ]);
                 setNewTodo('');
             });
-    }, [todos, newTodo, keycloak]);
+    }, [todos, newTodo, auth]);
 
     return (
         <div className="container">
             <h2>Todo List</h2>
-            <FormAddTodo newTodo={newTodo} onFormSubmitted={formSubmitted} onNewTodoChange={onNewTodoChange} />
-            <TodoList todos={todos} onRemoveClick={removeTodo} onCheckToggle={toggleTodo} />
+            <FormAddTodo
+                newTodo={newTodo}
+                onFormSubmitted={formSubmitted}
+                onNewTodoChange={onNewTodoChange}
+            />
+            <TodoList
+                todos={todos}
+                onRemoveClick={removeTodo}
+                onCheckToggle={toggleTodo}
+            />
             <ErrorLabel error={error}/>
         </div>
     );

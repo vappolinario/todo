@@ -16,7 +16,7 @@ const App = () => {
     if (keycloak) {
         if (keycloak.authenticated) {
             return (
-                <TodoApp keycloak={keycloak.keycloak}/>
+                <TodoApp auth={keycloak.keycloak}/>
             );
         } else {
             return <p>Login falhou</p>;
