@@ -36,6 +36,8 @@
 * [x] Adds authentication
   * [x] Adds keycloack-js
   * [ ] Wrap with KeycloakProvider from react-keycloak/web
+* [ ] Use styled-component for CSS
+* [ ] Start using ContextAPI instead of sending state to components
 
 ## References
 
