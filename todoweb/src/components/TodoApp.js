@@ -7,6 +7,22 @@ import {
     addTodoItem,
     toggleTodoState,
     removeTodoItem} from '../clients/todoclient.js';
+import styled from 'styled-components';
+
+const Container = styled.div`
+    display: block;
+    width: 400px;
+    margin: 10px auto 100px;
+    background-color:#fff;
+    padding:0px 10px 10px 10px;
+    border-radius:10px;
+`;
+
+const Title = styled.h2`
+    text-align:center;
+    padding-top:10px;
+    margin-bottom:0px;
+`;
 
 const TodoApp = ({auth}) => {
     const [newTodo, setNewTodo] = useState('');
@@ -50,8 +66,8 @@ const TodoApp = ({auth}) => {
     }, [todos, newTodo, auth]);
 
     return (
-        <div className="container">
-            <h2>Todo List</h2>
+        <Container>
+            <Title>Todo List</Title>
             <FormAddTodo
                 newTodo={newTodo}
                 onFormSubmitted={formSubmitted}
@@ -63,7 +79,7 @@ const TodoApp = ({auth}) => {
                 onCheckToggle={toggleTodo}
             />
             <ErrorLabel error={error}/>
-        </div>
+        </Container>
     );
 };
 

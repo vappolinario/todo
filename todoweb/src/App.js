@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TodoApp from './components/TodoApp';
+import ErrorLabel from './components/ErrorLabel.js';
 import Keycloak from 'keycloak-js';
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
                 <TodoApp auth={keycloak.keycloak}/>
             );
         } else {
-            return <p>Login falhou</p>;
+            return <ErrorLabel error="Login falhou" />;
         }
     }
     return <p>Iniciando keycloak</p>;
