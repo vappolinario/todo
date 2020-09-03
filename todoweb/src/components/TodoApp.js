@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components';
 
 import { useToken } from '../contexts/Token';
+import { useTodos } from '../contexts/Todos';
 
 const Container = styled.div`
     display: block;
@@ -28,13 +29,13 @@ const Title = styled.h2`
 
 const TodoApp = () => {
     const { token } = useToken();
+    const { todos, setTodos } = useTodos();
 
-    const [todos, setTodos] = useState([]);
     const [error] = useState('');
 
     useEffect(() => {
         getTodoList(token, (items) => setTodos(items));
-    }, [token]);
+    }, [setTodos, token]);
 
     const removeTodo = useCallback((todo) => (_) => {
         removeTodoItem(
@@ -42,7 +43,7 @@ const TodoApp = () => {
             token,
             () => setTodos(todos.filter(otherTodo => otherTodo !== todo))
         );
-    }, [todos, token]);
+    }, [todos, token, setTodos]);
 
     const toggleTodo = useCallback((todo, index) => (_) => {
         const newTodos = [...todos];
@@ -51,7 +52,7 @@ const TodoApp = () => {
             done: !todo.done
         });
         toggleTodoState(todo, token, () => setTodos(newTodos));
-    }, [todos, token]);
+    }, [todos, token, setTodos]);
 
     const formSubmitted = useCallback((e) => {
         e.preventDefault();
@@ -64,7 +65,7 @@ const TodoApp = () => {
             (response) => {
                 setTodos([ response, ...todos, ]);
             });
-    }, [todos, token]);
+    }, [todos, token, setTodos]);
 
     return (
         <Container>
