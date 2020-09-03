@@ -35,7 +35,6 @@ export function toggleTodoState(todo, token, updateList) {
 }
 
 export function addTodoItem(item, token, callback) {
-    console.log('item', item);
   const add = {
     method: 'post',
     url: `${API_URL}`,
