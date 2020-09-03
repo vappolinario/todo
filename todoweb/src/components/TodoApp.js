@@ -9,6 +9,8 @@ import {
     removeTodoItem} from '../clients/todoclient.js';
 import styled from 'styled-components';
 
+import { useToken } from '../contexts/Token';
+
 const Container = styled.div`
     display: block;
     width: 400px;
@@ -24,24 +26,26 @@ const Title = styled.h2`
     margin-bottom:0px;
 `;
 
-const TodoApp = ({auth}) => {
+const TodoApp = () => {
+    const { token } = useToken();
+
     const [newTodo, setNewTodo] = useState('');
     const [todos, setTodos] = useState([]);
-    const [error, setError] = useState('');
+    const [error] = useState('');
 
     const onNewTodoChange = useCallback((e) => {setNewTodo(e.target.value)}, []);
 
     useEffect(() => {
-        getTodoList(auth.token, (items) => setTodos(items));
-    }, [auth]);
+        getTodoList(token, (items) => setTodos(items));
+    }, [token]);
 
     const removeTodo = useCallback((todo) => (_) => {
         removeTodoItem(
             todo.id,
-            auth.token,
+            token,
             () => setTodos(todos.filter(otherTodo => otherTodo !== todo))
         );
-    }, [todos, auth]);
+    }, [todos, token]);
 
     const toggleTodo = useCallback((todo, index) => (_) => {
         const newTodos = [...todos];
@@ -49,8 +53,8 @@ const TodoApp = ({auth}) => {
             ...todo,
             done: !todo.done
         });
-        toggleTodoState(todo, auth.token, () => setTodos(newTodos));
-    }, [todos, auth]);
+        toggleTodoState(todo, token, () => setTodos(newTodos));
+    }, [todos, token]);
 
     const formSubmitted = useCallback((e) => {
         e.preventDefault();
@@ -58,12 +62,12 @@ const TodoApp = ({auth}) => {
         const newItem = { id: 0, content: newTodo, done: false };
         addTodoItem(
             newItem,
-            auth.token,
+            token,
             (response) => {
                 setTodos([ response, ...todos, ]);
                 setNewTodo('');
             });
-    }, [todos, newTodo, auth]);
+    }, [todos, newTodo, token]);
 
     return (
         <Container>
