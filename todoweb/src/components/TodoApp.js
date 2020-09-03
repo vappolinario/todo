@@ -2,13 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import TodoList from './TodoList';
 import FormAddTodo from './FormAddTodo';
 import ErrorLabel from './ErrorLabel';
-import {
-    getTodoList,
-    addTodoItem,
-    toggleTodoState,
-    removeTodoItem} from '../clients/todoclient.js';
+import * as todoclient from '../clients/todoclient.js';
 import styled from 'styled-components';
-
 import { useToken } from '../contexts/Token';
 import { useTodos } from '../contexts/Todos';
 
@@ -34,11 +29,11 @@ const TodoApp = () => {
     const [error] = useState('');
 
     useEffect(() => {
-        getTodoList(token, (items) => setTodos(items));
+        todoclient.getTodoList(token, (items) => setTodos(items));
     }, [setTodos, token]);
 
     const removeTodo = useCallback((todo) => (_) => {
-        removeTodoItem(
+        todoclient.removeTodoItem(
             todo.id,
             token,
             () => setTodos(todos.filter(otherTodo => otherTodo !== todo))
@@ -51,7 +46,7 @@ const TodoApp = () => {
             ...todo,
             done: !todo.done
         });
-        toggleTodoState(todo, token, () => setTodos(newTodos));
+        todoclient.toggleTodoState(todo, token, () => setTodos(newTodos));
     }, [todos, token, setTodos]);
 
     const formSubmitted = useCallback((e) => {
@@ -59,7 +54,7 @@ const TodoApp = () => {
         const item = e.target[0].value;
         if (!item.trim()) return;
         const newItem = { id: 0, content: item, done: false };
-        addTodoItem(
+        todoclient.addTodoItem(
             newItem,
             token,
             (response) => {
