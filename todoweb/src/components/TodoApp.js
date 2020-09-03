@@ -29,11 +29,8 @@ const Title = styled.h2`
 const TodoApp = () => {
     const { token } = useToken();
 
-    const [newTodo, setNewTodo] = useState('');
     const [todos, setTodos] = useState([]);
     const [error] = useState('');
-
-    const onNewTodoChange = useCallback((e) => {setNewTodo(e.target.value)}, []);
 
     useEffect(() => {
         getTodoList(token, (items) => setTodos(items));
@@ -58,24 +55,22 @@ const TodoApp = () => {
 
     const formSubmitted = useCallback((e) => {
         e.preventDefault();
-        if (!newTodo.trim()) return;
-        const newItem = { id: 0, content: newTodo, done: false };
+        const item = e.target[0].value;
+        if (!item.trim()) return;
+        const newItem = { id: 0, content: item, done: false };
         addTodoItem(
             newItem,
             token,
             (response) => {
                 setTodos([ response, ...todos, ]);
-                setNewTodo('');
             });
-    }, [todos, newTodo, token]);
+    }, [todos, token]);
 
     return (
         <Container>
             <Title>Todo List</Title>
             <FormAddTodo
-                newTodo={newTodo}
                 onFormSubmitted={formSubmitted}
-                onNewTodoChange={onNewTodoChange}
             />
             <TodoList
                 todos={todos}

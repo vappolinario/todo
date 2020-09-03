@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import {Button} from './Button.js';
 import {Header} from './Header.js';
@@ -25,14 +25,18 @@ const Input = styled.input`
 `;
 
 const FormAddTodo = (props) => {
+    const [newTodo, setNewTodo] = useState('');
+
+    const onNewTodoChange = useCallback((e) => {setNewTodo(e.target.value)}, []);
+
     return (
         <form onSubmit={props.onFormSubmitted}>
             <Header>Add task</Header>
             <Input
                 id="newTodo"
                 name="newTodo"
-                value={props.newTodo}
-                onChange={props.onNewTodoChange}
+                value={newTodo}
+                onChange={onNewTodoChange}
             />
             <AddButton>Add</AddButton>
         </form>
