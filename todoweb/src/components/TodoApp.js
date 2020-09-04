@@ -2,25 +2,10 @@ import React, { useState, useCallback, useEffect } from 'react';
 import TodoList from './TodoList';
 import FormAddTodo from './FormAddTodo';
 import ErrorLabel from './ErrorLabel';
+import {Container, Title} from './Lib';
 import * as todoclient from '../clients/todoclient.js';
-import styled from 'styled-components';
 import { useToken } from '../contexts/Token';
 import { useTodos } from '../contexts/Todos';
-
-const Container = styled.div`
-    display: block;
-    width: 400px;
-    margin: 10px auto 100px;
-    background-color:#fff;
-    padding:0px 10px 10px 10px;
-    border-radius:10px;
-`;
-
-const Title = styled.h2`
-    text-align:center;
-    padding-top:10px;
-    margin-bottom:0px;
-`;
 
 const TodoApp = () => {
     const { token } = useToken();

@@ -1,15 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const ItemLabel = styled.label`
-    text-decoration: ${props => props.todo.done ? "line-through" : ""};
-    color: ${props => props.todo.done ? "#888" : "black"};
-    font-size: 18px;
-    line-height: 20px;
-    width: 200px;
-    padding: 0 0 0 11px;
-    margin-right: 10px;
-`;
+import {ItemLabel} from './Lib';
 
 const TodoItem = (props) => {
     return (

@@ -1,26 +1,6 @@
 import React from 'react';
 import TodoItem from './TodoItem';
-import styled from 'styled-components';
-import {Button} from './Button.js';
-import {Header} from './Header.js';
-
-const RemoveButton = styled(Button)`
-    color: #888;
-    &:hover {
-        color: #CF2323;
-    }
-`;
-
-const List = styled.ul`
-    margin: 0;
-    padding: 0;
-`;
-
-const ItemList = styled.li`
-    overflow: hidden;
-    padding: 20px 0;
-    border-bottom: 1px solid #eee;
-`;
+import {Header, List, ItemList, RemoveButton} from './Lib';
 
 const TodoList = (props) => {
     return (
