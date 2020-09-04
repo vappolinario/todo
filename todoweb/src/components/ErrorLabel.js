@@ -1,5 +1,5 @@
 import React from 'react';
-import {Label} from './Lib';
+import {Label} from './styled/Lib';
 
 const ErrorLabel = (props) => {
     if ( props.error === undefined || props.error === '')

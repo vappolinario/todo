@@ -1,6 +1,6 @@
 import React from 'react';
 import TodoItem from './TodoItem';
-import {Header, List, ItemList, RemoveButton} from './Lib';
+import {Header, List, ItemList, RemoveButton} from './styled/Lib';
 
 const TodoList = (props) => {
     return (

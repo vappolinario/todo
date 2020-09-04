@@ -1,5 +1,5 @@
 import React from 'react';
-import {ItemLabel} from './Lib';
+import {ItemLabel} from './styled/Lib';
 
 const TodoItem = (props) => {
     return (

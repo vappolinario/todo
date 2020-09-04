@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import {AddButton, Header, Input} from './Lib.js';
+import {AddButton, Header, Input} from './styled/Lib.js';
 
 const FormAddTodo = (props) => {
     const [newTodo, setNewTodo] = useState('');

@@ -1,14 +1,5 @@
 import styled from 'styled-components';
-
-const styledConfig = {
-    colors: {
-        header: '#333',
-        error: '#f44336',
-        background: '#fff',
-        disabled: '#888',
-        textColor: 'black',
-    }
-}
+import { styledConfig } from './styled.theme';
 
 export const Button = styled.button`
     outline: none;
