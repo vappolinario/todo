@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,7 +11,6 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import NewTodoForm from './NewTodoForm';
 import TodoList from './TodoList';
-import LoginScreen from './LoginScreen';
 import * as todoclient from '../clients/todoclient';
 import {useUserCredential} from '../contexts/AuthContext';
 
@@ -19,6 +18,10 @@ const TodoApp = () => {
   const [todos, setTodos] = useState([]);
 
   const {token} = useUserCredential();
+
+  useEffect(() => {
+    todoclient.getTodoList(token.access_token, setTodos);
+  }, [token]);
 
   const handleGetListClick = useCallback(() => {
     todoclient.getTodoList(token.access_token, setTodos);
@@ -65,7 +68,6 @@ const TodoApp = () => {
             <Text style={styles.footer}>Engine: Hermes</Text>
           </View>
         )}
-        <LoginScreen />
         <View style={styles.body}>
           <NewTodoForm onPress={handleAddTodo} />
           <Button onPress={handleGetListClick} title="Get List" />
