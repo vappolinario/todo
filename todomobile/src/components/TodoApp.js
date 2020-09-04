@@ -12,13 +12,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import NewTodoForm from './NewTodoForm';
 import TodoList from './TodoList';
 import LoginScreen from './LoginScreen';
-
-import {
-  getTodoList,
-  toggleTodoState,
-  addTodoItem,
-  removeItem,
-} from '../clients/todoclient';
+import * as todoclient from '../clients/todoclient';
 import {useUserCredential} from '../contexts/AuthContext';
 
 const TodoApp = () => {
@@ -27,12 +21,12 @@ const TodoApp = () => {
   const {token} = useUserCredential();
 
   const handleGetListClick = useCallback(() => {
-    getTodoList(token.access_token, setTodos);
+    todoclient.getTodoList(token.access_token, setTodos);
   }, [token]);
 
   const handleAddTodo = useCallback(
     (item) => () => {
-      addTodoItem(item, token, (response) => {
+      todoclient.addTodoItem(item, token, (response) => {
         setTodos([response, ...todos]);
       });
       handleGetListClick();
@@ -47,7 +41,7 @@ const TodoApp = () => {
         ...todo,
         done: !todo.done,
       });
-      toggleTodoState(todo, token, setTodos(newTodos));
+      todoclient.toggleTodoState(todo, token, setTodos(newTodos));
     },
     [todos, token],
   );
@@ -55,7 +49,7 @@ const TodoApp = () => {
   const handleRemoveClick = useCallback(
     (id) => {
       console.log('remove id', id);
-      removeItem(id, token, () => {
+      todoclient.removeItem(id, token, () => {
         handleGetListClick();
       });
     },
