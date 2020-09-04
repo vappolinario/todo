@@ -5,7 +5,6 @@ import TodoItem from './TodoItem';
 const TodoList = ({todos, onCheckToggle, onRemoveClick}) => {
   const toggle = (a, b) => onCheckToggle(a, b);
   const remove = (id) => {
-    console.log('tl ', id);
     onRemoveClick(id);
   };
 
