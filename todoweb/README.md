@@ -37,6 +37,7 @@
   * [x] Adds keycloack-js
   * [ ] Wrap with KeycloakProvider from react-keycloak/web
 * [X] Use styled-component for CSS
+    * [ ] Create a theme
 * [X] Start using ContextAPI instead of sending state to components
 
 ## References
@@ -46,3 +47,4 @@
 * https://reactjs.org/docs/react-api.html
 * https://reactjs.org/tutorial/tutorial.html#developer-tools
 * https://medium.com/@cagline/authenticate-and-authorize-react-routes-component-with-keycloak-666e85662636
+* https://www.es6.today/2019/04.06/organizing-styled-components/
