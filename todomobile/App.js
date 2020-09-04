@@ -1,73 +1,10 @@
-import React, {useState, useCallback} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
-  Button,
-} from 'react-native';
+import React from 'react';
+import {SafeAreaView, StyleSheet, View, Text, StatusBar} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
-import NewTodoForm from './src/components/NewTodoForm.js';
-import TodoList from './src/components/TodoList.js';
-
-import {
-  getTodoList,
-  toggleTodoState,
-  addTodoItem,
-  removeItem,
-} from './src/clients/todoclient.js';
-import {login} from './src/clients/authclient.js';
+import TodoApp from './src/components/TodoApp';
+import AuthProvider from './src/contexts/AuthContext';
 
 const App: () => React$Node = () => {
-  const [token, setToken] = useState('');
-  const [todos, setTodos] = useState([]);
-
-  const handleGetTokenClick = useCallback(() => {
-    login('vitor', 'teste123', (data) => {
-      setToken(data);
-      setTodos([]);
-      handleGetListClick();
-    });
-  }, [setToken, handleGetListClick]);
-
-  const handleGetListClick = useCallback(() => {
-    getTodoList(token.access_token, setTodos);
-  }, [token]);
-
-  const handleAddTodo = useCallback(
-    (item) => () => {
-      addTodoItem(item, token, (response) => {
-        setTodos([response, ...todos]);
-      });
-      handleGetListClick();
-    },
-    [token, todos, handleGetListClick],
-  );
-
-  const handleToggleDone = useCallback(
-    (todo, index) => (_) => {
-      const newTodos = [...todos];
-      newTodos.splice(index, 1, {
-        ...todo,
-        done: !todo.done,
-      });
-      toggleTodoState(todo, token, setTodos(newTodos));
-    },
-    [todos, token],
-  );
-
-  const handleRemoveClick = useCallback(
-    (id) => {
-      console.log('remove id', id);
-      removeItem(id, token, () => {
-        handleGetListClick();
-      });
-    },
-    [token, handleGetListClick],
-  );
-
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -77,16 +14,9 @@ const App: () => React$Node = () => {
             <Text style={styles.footer}>Engine: Hermes</Text>
           </View>
         )}
-        <View style={styles.body}>
-          <Button onPress={handleGetTokenClick} title="Get Token" />
-          <NewTodoForm onPress={handleAddTodo} />
-          <Button onPress={handleGetListClick} title="Get List" />
-          <TodoList
-            todos={todos}
-            onCheckToggle={handleToggleDone}
-            onRemoveClick={handleRemoveClick}
-          />
-        </View>
+        <AuthProvider>
+          <TodoApp />
+        </AuthProvider>
       </SafeAreaView>
     </>
   );

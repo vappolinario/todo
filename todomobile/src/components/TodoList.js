@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList} from 'react-native';
-import TodoItem from './TodoItem.js';
+import TodoItem from './TodoItem';
 
 const TodoList = ({todos, onCheckToggle, onRemoveClick}) => {
   const toggle = (a, b) => onCheckToggle(a, b);

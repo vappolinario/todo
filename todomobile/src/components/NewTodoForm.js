@@ -7,6 +7,7 @@ const NewTodoForm = ({onPress}) => {
     <View style={styles.view}>
       <TextInput
         style={styles.textInput}
+        placeholder="New task"
         onChangeText={(text) => setNewTodo(text)}
       />
       <Button title="Add" onPress={onPress(newTodo)} />
