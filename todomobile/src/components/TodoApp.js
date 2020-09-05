@@ -16,7 +16,6 @@ import {useUserCredential} from '../contexts/AuthContext';
 
 const TodoApp = () => {
   const [todos, setTodos] = useState([]);
-
   const {token} = useUserCredential();
 
   useEffect(() => {

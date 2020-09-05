@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import TodoApp from './TodoApp';
+import Home from './Home';
 import LoginScreen from './LoginScreen';
 import {useUserCredential} from '../contexts/AuthContext';
 
@@ -31,7 +31,7 @@ const ScreenStack = () => {
             options={{title: 'Sign In', animationTypeForReplace: 'pop'}}
           />
         ) : (
-          <Stack.Screen name="TaskList" component={TodoApp} />
+          <Stack.Screen name="TaskList" component={Home} />
         )}
       </Stack.Navigator>
     </NavigationContainer>
