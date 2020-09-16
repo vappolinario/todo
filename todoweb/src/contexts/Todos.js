@@ -1,8 +1,8 @@
 import React, { createContext, useState, useContext } from 'react';
 
-export const TodosContext = createContext();
+const TodosContext = createContext();
 
-export default function TodosProvider ({ children }) {
+const TodosProvider = ({ children }) => {
     const [todos, setTodos] = useState([]);
     return (
         <TodosContext.Provider value={{ todos, setTodos, }} >
@@ -11,9 +11,10 @@ export default function TodosProvider ({ children }) {
     )
 };
 
-export function useTodos() {
+const useTodos = () => {
     const context = useContext(TodosContext);
     const {todos, setTodos} = context;
     return {todos, setTodos};
 };
 
+export { TodosProvider, TodosContext, useTodos };
