@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import TodoApp from './TodoApp';
-import ErrorLabel from './ErrorLabel.js';
+import TodoApp from '../TodoApp';
+import ErrorLabel from '../ErrorLabel';
 import Keycloak from 'keycloak-js';
-import { useToken } from '../contexts/Token';
+import { useToken } from '../../contexts/Token';
 
 const Login = () => {
     const [keycloak, setKeycloak] = useState('');

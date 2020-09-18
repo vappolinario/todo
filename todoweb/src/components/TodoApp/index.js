@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import TodoList from './TodoList';
-import FormAddTodo from './FormAddTodo';
-import ErrorLabel from './ErrorLabel';
-import {Container, Title} from './styled/Lib';
-import * as todoclient from '../clients/todoclient.js';
-import { useToken } from '../contexts/Token';
-import { useTodos } from '../contexts/Todos';
+import TodoList from '../TodoList';
+import FormAddTodo from '../FormAddTodo';
+import ErrorLabel from '../ErrorLabel';
+import {Container, Title} from '../styled/Lib';
+import * as todoclient from '../../clients/todoclient.js';
+import { useToken } from '../../contexts/Token';
+import { useTodos } from '../../contexts/Todos';
 
 const TodoApp = () => {
     const { token } = useToken();
